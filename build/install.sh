@@ -28,7 +28,7 @@ pip3 install -r requirements_styletts2.txt
 pip3 install -r requirements_vall_e.txt
 pip3 install -r requirements_maha_tts.txt
 pip3 install -r requirements_stable_audio.txt
-pip3 install soundfile==0.12.1 protobuf==3.19.4
+pip3 install soundfile==0.12.1 protobuf==5.27.2
 deactivate
 
 # Install the NodeJS dependencies for the TTS Generation WebUI
