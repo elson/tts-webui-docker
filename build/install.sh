@@ -14,7 +14,8 @@ git checkout ${TTS_COMMIT}
 # Install the Python dependencies for TTS Generation WebUI
 source /venv/bin/activate
 pip3 install --upgrade pip
-pip3 install --no-cache-dir torch==${TORCH_VERSION} torchaudio torchvision --index-url ${INDEX_URL}
+pip3 install setuptools
+pip3 install --no-cache-dir torch==${TORCH_VERSION} torchaudio torchvision --extra-index-url ${INDEX_URL}
 pip3 install --no-cache-dir xformers==${XFORMERS_VERSION}
 pip3 install -r requirements.txt
 pip3 install -r requirements_audiocraft_only.txt --no-deps
