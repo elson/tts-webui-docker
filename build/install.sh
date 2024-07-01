@@ -13,6 +13,7 @@ git checkout ${TTS_COMMIT}
 
 # Install the Python dependencies for TTS Generation WebUI
 source /venv/bin/activate
+# pip > 24.0 is broken due to fairseq
 pip3 install --upgrade pip==24.0
 pip3 install setuptools
 pip3 install --no-cache-dir torch==${TORCH_VERSION} torchaudio torchvision --extra-index-url ${INDEX_URL}
