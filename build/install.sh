@@ -23,6 +23,8 @@ pip3 install hydra-core==1.3.2
 pip3 install -r requirements_styletts2.txt
 pip3 install -r requirements_vall_e.txt
 pip3 install -r requirements_maha_tts.txt
+pip3 install -r requirements_stable_audio.txt
+pip3 install soundfile==0.12.1
 deactivate
 
 # Install the NodeJS dependencies for the TTS Generation WebUI
