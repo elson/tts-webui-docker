@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+set -e
+
 # Create and use the Python venv
 # No --system-site-packages used here because it creates issues with
 # packages not being found.
