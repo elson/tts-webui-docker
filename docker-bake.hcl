@@ -11,7 +11,7 @@ variable "APP" {
 }
 
 variable "RELEASE" {
-    default = "2.4.3"
+    default = "2.5.0"
 }
 
 variable "CU_VERSION" {
@@ -23,7 +23,7 @@ variable "BASE_IMAGE_REPOSITORY" {
 }
 
 variable "BASE_IMAGE_VERSION" {
-    default = "1.5.0"
+    default = "1.6.0"
 }
 
 variable "CUDA_VERSION" {
@@ -43,7 +43,7 @@ target "default" {
         INDEX_URL = "https://download.pytorch.org/whl/cu${CU_VERSION}"
         TORCH_VERSION = "${TORCH_VERSION}+cu${CU_VERSION}"
         XFORMERS_VERSION = "0.0.19"
-        TTS_COMMIT = "9157c1357c07e1fac1f498e9fb2e5f1f5e9fe091"
+        TTS_COMMIT = "09792985a6e4e11b817f7f11ed6a531b48cfdd9a"
         VENV_PATH = "/workspace/venvs/tts-generation-webui"
     }
 }
