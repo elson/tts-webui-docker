@@ -64,6 +64,7 @@ docker run -d \
   --gpus all \
   -v /workspace \
   -p 3000:3001 \
+  -p 3005:3006 \
   -p 7777:7777 \
   -p 8888:8888 \
   -p 2999:2999 \
@@ -74,20 +75,21 @@ You can obviously substitute the image name and tag with your own.
 
 ### Ports
 
-| Connect Port | Internal Port | Description            |
-|--------------|---------------|------------------------|
-| 3000         | 3001          | TTS Generation Web UI  |
-| 7777         | 7777          | Code Server            |
-| 8888         | 8888          | Jupyter Lab            |
-| 2999         | 2999          | RunPod File Uploader   |
+| Connect Port | Internal Port | Description                        |
+|--------------|---------------|------------------------------------|
+| 3000         | 3001          | TTS Generation Web UI              |
+| 3005         | 3006          | React TTS Generation Web UI (beta) |
+| 7777         | 7777          | Code Server                        |
+| 8888         | 8888          | Jupyter Lab                        |
+| 2999         | 2999          | RunPod File Uploader               |
 
 ### Environment Variables
 
-| Variable             | Description                                                | Default                               |
-|----------------------|------------------------------------------------------------|---------------------------------------|
-| JUPYTER_LAB_PASSWORD | Set a password for Jupyter lab                             | not set - no password                 |
-| DISABLE_AUTOLAUNCH   | Disable TTS Generation Web UI from launching automatically | (not set)                             |
-| DISABLE_SYNC         | Disable syncing if using a RunPod network volume           | (not set)                             |
+| Variable             | Description                                                | Default               |
+|----------------------|------------------------------------------------------------|-----------------------|
+| JUPYTER_LAB_PASSWORD | Set a password for Jupyter lab                             | not set - no password |
+| DISABLE_AUTOLAUNCH   | Disable TTS Generation Web UI from launching automatically | (not set)             |
+| DISABLE_SYNC         | Disable syncing if using a RunPod network volume           | (not set)             |
 
 ## Logs
 
