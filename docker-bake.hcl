@@ -11,7 +11,7 @@ variable "APP" {
 }
 
 variable "RELEASE" {
-    default = "2.5.0"
+    default = "2.6.0"
 }
 
 variable "CU_VERSION" {
@@ -23,7 +23,7 @@ variable "BASE_IMAGE_REPOSITORY" {
 }
 
 variable "BASE_IMAGE_VERSION" {
-    default = "1.6.0"
+    default = "1.7.0"
 }
 
 variable "CUDA_VERSION" {
@@ -44,6 +44,5 @@ target "default" {
         TORCH_VERSION = "${TORCH_VERSION}+cu${CU_VERSION}"
         XFORMERS_VERSION = "0.0.19"
         TTS_COMMIT = "09792985a6e4e11b817f7f11ed6a531b48cfdd9a"
-        VENV_PATH = "/workspace/venvs/tts-generation-webui"
     }
 }
