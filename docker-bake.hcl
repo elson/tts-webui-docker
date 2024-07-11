@@ -11,7 +11,7 @@ variable "APP" {
 }
 
 variable "RELEASE" {
-    default = "2.7.1"
+    default = "2.8.0"
 }
 
 variable "CU_VERSION" {
@@ -23,7 +23,7 @@ variable "BASE_IMAGE_REPOSITORY" {
 }
 
 variable "BASE_IMAGE_VERSION" {
-    default = "1.7.0"
+    default = "1.8.0"
 }
 
 variable "CUDA_VERSION" {
@@ -43,6 +43,6 @@ target "default" {
         INDEX_URL = "https://download.pytorch.org/whl/cu${CU_VERSION}"
         TORCH_VERSION = "${TORCH_VERSION}+cu${CU_VERSION}"
         XFORMERS_VERSION = "0.0.19"
-        TTS_COMMIT = "8054fd8b48d12de6ca7021fa5ec6d204e55455e8"
+        TTS_COMMIT = "45784848c173aaead6d44857217fb90cf1c6a2e3"
     }
 }
