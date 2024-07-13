@@ -4,7 +4,7 @@ set -e
 # Create and use the Python venv
 # No --system-site-packages used here because it creates issues with
 # packages not being found.
-python3 -m venv /venv
+python3 -m venv --system-site-packages /venv
 
 # Clone the git repo of TTS Generation WebUI and set version
 git clone https://github.com/rsxdalv/tts-generation-webui.git
@@ -15,15 +15,14 @@ git checkout ${TTS_COMMIT}
 source /venv/bin/activate
 
 # pip > 24.0 is broken due to fairseq
-pip3 install --upgrade pip==24.0
+pip3 install --no-cache-dir --upgrade pip==24.0 setuptools
 
-pip3 install setuptools
 pip3 install --no-cache-dir torch==${TORCH_VERSION} torchaudio torchvision --extra-index-url ${INDEX_URL}
 pip3 install --no-cache-dir xformers==${XFORMERS_VERSION}
 pip3 install -r requirements.txt
-pip3 install -r requirements_audiocraft.txt
 pip3 install -r requirements_bark_hubert_quantizer.txt
 pip3 install -r requirements_rvc.txt
+pip3 install -r requirements_audiocraft.txt
 pip3 install -r requirements_styletts2.txt
 pip3 install -r requirements_vall_e.txt
 pip3 install -r requirements_maha_tts.txt
