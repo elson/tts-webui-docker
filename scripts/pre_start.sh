@@ -4,7 +4,7 @@ export PYTHONUNBUFFERED=1
 export APP="tts-generation-webui"
 
 TEMPLATE_NAME="${APP}"
-DOCKER_IMAGE_VERSION_FILE="/workspace/${APP}/docker_image_version"
+TEMPLATE_VERSION_FILE="/workspace/${APP}/template.json"
 
 echo "Template name: ${TEMPLATE_NAME}"
 echo "Template version: ${TEMPLATE_VERSION}"
