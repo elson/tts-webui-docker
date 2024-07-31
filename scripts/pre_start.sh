@@ -6,8 +6,8 @@ export APP="tts-generation-webui"
 TEMPLATE_NAME="${APP}"
 TEMPLATE_VERSION_FILE="/workspace/${APP}/template.json"
 
-echo "Template name: ${TEMPLATE_NAME}"
-echo "Template version: ${TEMPLATE_VERSION}"
+echo "TEMPLATE NAME: ${TEMPLATE_NAME}"
+echo "TEMPLATE VERSION: ${TEMPLATE_VERSION}"
 
 if [[ -e ${TEMPLATE_VERSION_FILE} ]]; then
     EXISTING_TEMPLATE_NAME=$(jq -r '.template_name // empty' "$TEMPLATE_VERSION_FILE")
@@ -37,34 +37,84 @@ EOF
 sync_directory() {
     local src_dir="$1"
     local dst_dir="$2"
+    local use_compression=${3:-false}
 
-    echo "Syncing from $src_dir to $dst_dir"
+    echo "SYNC: Syncing from ${src_dir} to ${dst_dir}, please wait (this can take a few minutes)..."
 
     # Ensure destination directory exists
-    mkdir -p "$dst_dir"
+    mkdir -p "${dst_dir}"
 
-    # Get total size of source directory
-    local total_size=$(du -sb "$src_dir" | cut -f1)
+    # Check whether /workspace is fuse, overlay, or xfs
+    local workspace_fs=$(df -T /workspace | awk 'NR==2 {print $2}')
+    echo "SYNC: File system type: ${workspace_fs}"
 
-    # Use parallel tar with fast compression and exclusions
-    tar --use-compress-program="pigz -p 4" \
-        --exclude='*.pyc' \
-        --exclude='__pycache__' \
-        --exclude='*.log' \
-        -cf - -C "$src_dir" . | \
-    pv -s $total_size | \
-    tar --use-compress-program="pigz -p 4" -xf - -C "$dst_dir"
+    if [ "${workspace_fs}" = "fuse" ]; then
+        if [ "$use_compression" = true ]; then
+            echo "SYNC: Using tar with zstd compression for sync"
+        else
+            echo "SYNC: Using tar without compression for sync"
+        fi
 
-    echo "Sync completed"
+        # Get total size of source directory
+        local total_size=$(du -sb "${src_dir}" | cut -f1)
+
+        # Base tar command with optimizations
+        local tar_cmd="tar --create \
+            --file=- \
+            --directory="${src_dir}" \
+            --exclude='*.pyc' \
+            --exclude='__pycache__' \
+            --exclude='*.log' \
+            --blocking-factor=64 \
+            --record-size=64K \
+            --sparse \
+            ."
+
+        # Base tar extract command
+        local tar_extract_cmd="tar --extract \
+            --file=- \
+            --directory="${dst_dir}" \
+            --blocking-factor=64 \
+            --record-size=64K \
+            --sparse"
+
+        if [ "$use_compression" = true ]; then
+            $tar_cmd | zstd -T0 -1 | pv -s ${total_size} | zstd -d -T0 | $tar_extract_cmd
+        else
+            $tar_cmd | pv -s ${total_size} | $tar_extract_cmd
+        fi
+
+    elif [ "${workspace_fs}" = "overlay" ] || [ "${workspace_fs}" = "xfs" ]; then
+        echo "SYNC: Using rsync for sync"
+        rsync -rlptDu "${src_dir}/" "${dst_dir}/"
+    else
+        echo "SYNC: Unknown filesystem type (${workspace_fs}) for /workspace, defaulting to rsync"
+        rsync -rlptDu "${src_dir}/" "${dst_dir}/"
+    fi
 }
 
 sync_apps() {
     # Only sync if the DISABLE_SYNC environment variable is not set
     if [ -z "${DISABLE_SYNC}" ]; then
-        # Sync application to workspace to support Network volumes
-        echo "Syncing ${APP} to workspace, please wait..."
+        echo "SYNC: Syncing to persistent storage started"
+
+        # Start the timer
+        start_time=$(date +%s)
+
+        echo "SYNC: Sync 1 of 1"
         sync_directory "/${APP}" "/workspace/${APP}"
         save_template_json
+
+        # End the timer and calculate the duration
+        end_time=$(date +%s)
+        duration=$((end_time - start_time))
+
+        # Convert duration to minutes and seconds
+        minutes=$((duration / 60))
+        seconds=$((duration % 60))
+
+        echo "SYNC: Syncing COMPLETE!"
+        printf "SYNC: Time taken: %d minutes, %d seconds\n" ${minutes} ${seconds}
     fi
 }
 
@@ -75,10 +125,10 @@ if [ "$(printf '%s\n' "$EXISTING_VERSION" "$TEMPLATE_VERSION" | sort -V | head -
         # Create directories
         mkdir -p /workspace/logs /workspace/tmp
     else
-        echo "Existing version is the same as the template version, no syncing required."
+        echo "SYNC: Existing version is the same as the template version, no syncing required."
     fi
 else
-    echo "Existing version is newer than the template version, not syncing!"
+    echo "SYNC: Existing version is newer than the template version, not syncing!"
 fi
 
 if [[ ${DISABLE_AUTOLAUNCH} ]]
@@ -90,5 +140,3 @@ then
 else
     /start_tts_webui.sh
 fi
-
-echo "All services have been started"
