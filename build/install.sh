@@ -19,19 +19,20 @@ pip3 install --no-cache-dir --upgrade pip==24.0 setuptools
 
 pip3 install --no-cache-dir torch==${TORCH_VERSION} torchaudio torchvision --extra-index-url ${INDEX_URL}
 pip3 install --no-cache-dir xformers==${XFORMERS_VERSION}
-pip3 install -r requirements.txt
-pip3 install -r requirements_bark_hubert_quantizer.txt
-pip3 install -r requirements_rvc.txt
-pip3 install -r requirements_audiocraft.txt
-pip3 install -r requirements_styletts2.txt
-pip3 install -r requirements_vall_e.txt
-pip3 install -r requirements_maha_tts.txt
-pip3 install -r requirements_stable_audio.txt
+pip3 install --no-cache-dir torch==$TORCH_VERSION -r requirements.txt
+pip3 install --no-cache-dir torch==$TORCH_VERSION git+https://github.com/rsxdalv/extension_bark_voice_clone@main
+pip3 install --no-cache-dir torch==$TORCH_VERSION git+https://github.com/rsxdalv/extension_rvc@main
+pip3 install --no-cache-dir torch==$TORCH_VERSION git+https://github.com/rsxdalv/extension_audiocraft@main
+pip3 install --no-cache-dir torch==$TORCH_VERSION git+https://github.com/rsxdalv/extension_styletts2@main
+pip3 install --no-cache-dir torch==$TORCH_VERSION git+https://github.com/rsxdalv/extension_vall_e_x@main
+pip3 install --no-cache-dir torch==$TORCH_VERSION git+https://github.com/rsxdalv/extension_maha_tts@main
+pip3 install --no-cache-dir torch==$TORCH_VERSION git+https://github.com/rsxdalv/extension_stable_audio@main
+pip3 install --no-cache-dir torch==$TORCH_VERSION nvidia-ml-py
 deactivate
 
 # Install the NodeJS dependencies for the TTS Generation WebUI
 apt -y purge nodejs libnode*
-curl -sL https://deb.nodesource.com/setup_18.x -o nodesource_setup.sh
+curl -sL https://deb.nodesource.com/setup_22.x -o nodesource_setup.sh
 bash nodesource_setup.sh
 apt -y install nodejs
 cd /tts-generation-webui/react-ui
