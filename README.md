@@ -28,7 +28,7 @@ Web UI for:
 
 * Ubuntu 22.04 LTS
 * CUDA 12.4
-* Python 3.11
+* Python 3.11.12
 * [TTS Generation Web UI](
   https://github.com/rsxdalv/tts-generation-webui)
 * Torch 2.6.0
