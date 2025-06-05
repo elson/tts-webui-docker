@@ -8,7 +8,7 @@ export HF_HOME="/workspace"
 export PORT=3006
 source /venv/bin/activate
 cd /workspace/TTS-WebUI
-nohup python3 server.py > /workspace/logs/tts.log 2>&1 &
+nohup python3 server.py --docker > /workspace/logs/tts.log 2>&1 &
 echo "TTS WebUI started"
 echo "Log file: /workspace/logs/tts.log"
 deactivate
