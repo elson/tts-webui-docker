@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 export PYTHONUNBUFFERED=1
-export APP="tts-webui"
+export APP="TTS-WebUI"
 
 TEMPLATE_NAME="${APP}"
 TEMPLATE_VERSION_FILE="/workspace/${APP}/template.json"

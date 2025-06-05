@@ -20,8 +20,8 @@ COPY --chmod=755 build/install.sh /install.sh
 RUN /install.sh && rm /install.sh
 
 # Copy configuration files
-COPY config.json /tts-webui/config.json
-COPY .env /tts-webui/.env
+COPY config.json /TTS-WebUI/config.json
+COPY .env /TTS-WebUI/.env
 
 # Remove existing SSH host keys
 RUN rm -f /etc/ssh/ssh_host_*
