@@ -7,7 +7,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
     PIP_NO_CACHE_DIR=on \
     SHELL=/bin/bash
 
-# Install TTS Generation Web UI
+# Install TTS WebUI
 ARG INDEX_URL
 ARG TORCH_VERSION
 ARG XFORMERS_VERSION
@@ -20,8 +20,8 @@ COPY --chmod=755 build/install.sh /install.sh
 RUN /install.sh && rm /install.sh
 
 # Copy configuration files
-COPY config.json /tts-generation-webui/config.json
-COPY .env /tts-generation-webui/.env
+COPY config.json /tts-webui/config.json
+COPY .env /tts-webui/.env
 
 # Remove existing SSH host keys
 RUN rm -f /etc/ssh/ssh_host_*

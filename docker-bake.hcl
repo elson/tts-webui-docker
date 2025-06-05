@@ -7,11 +7,11 @@ variable "REGISTRY_USER" {
 }
 
 variable "APP" {
-    default = "tts-generation"
+    default = "tts-webui"
 }
 
 variable "RELEASE" {
-    default = "4.0.0"
+    default = "4.1.0"
 }
 
 variable "CU_VERSION" {
@@ -47,6 +47,6 @@ target "default" {
         INDEX_URL = "https://download.pytorch.org/whl/cu${CU_VERSION}"
         TORCH_VERSION = "${TORCH_VERSION}+cu${CU_VERSION}"
         XFORMERS_VERSION = "0.0.29.post3"
-        TTS_COMMIT = "bf29d913cbe9e3c81f895eede6c846a32441f70c"
+        TTS_COMMIT = "ba626d16b68c35f2e9c12e73f5350a6ccca5a52f"
     }
 }

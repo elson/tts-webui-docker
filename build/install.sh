@@ -6,12 +6,12 @@ set -e
 # packages not being found.
 python3 -m venv --system-site-packages /venv
 
-# Clone the git repo of TTS Generation WebUI and set version
-git clone https://github.com/rsxdalv/tts-generation-webui.git
-cd /tts-generation-webui
+# Clone the git repo of TTS WebUI and set version
+git clone https://github.com/rsxdalv/TTS-WebUI.git
+cd /TTS-WebUI
 git checkout ${TTS_COMMIT}
 
-# Install the Python dependencies for TTS Generation WebUI
+# Install the Python dependencies for TTS WebUI
 source /venv/bin/activate
 
 # pip > 24.0 is broken due to fairseq
@@ -30,11 +30,11 @@ pip3 install --no-cache-dir torch==$TORCH_VERSION git+https://github.com/rsxdalv
 pip3 install --no-cache-dir torch==$TORCH_VERSION nvidia-ml-py
 deactivate
 
-# Install the NodeJS dependencies for the TTS Generation WebUI
+# Install the NodeJS dependencies for the TTS WebUI
 apt -y purge nodejs libnode*
 curl -sL https://deb.nodesource.com/setup_22.x -o nodesource_setup.sh
 bash nodesource_setup.sh
 apt -y install nodejs
-cd /tts-generation-webui/react-ui
+cd /TTS-WebUI/react-ui
 npm install
 npm run build
